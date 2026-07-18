@@ -19,11 +19,19 @@ trimming is required. The booklet can be simply staple bound.
 For printing on a duplex printer (ie printing both sides of a sheet in the same 
 pass). Ex: a fancy printer like at Kinkos, Office Max, Staples, etc.
 
-BFB is entirely black and white, so just print it off.
+BFB is entirely black and white, so just print off `./print/Beak Feather Bone - Duplex.pdf`
 
 # Simplex
-Assuming your printer outputs pages face down, top towards you: First print 
-`./print/Beak Feather Bone - Simplex Fronts.pdf`. Take the stack of paper and 
-put it back into your printer's paper feed, then print `./print/Beak Feather 
-Bone - Simplex - Backs (Reversed).pdf`. You should try a couple test pages first 
-to ensure your print outputs like you expect.
+For printers that don't support duplex printing: print the front side of all 
+sheets, then print onto the back side of all sheets.
+
+This is more tricky and printer-dependant. My printer outputs pages face down, 
+top out. You should do a couple test passes first to check how your printer 
+outputs pages.
+
+First print `./print/Beak Feather Bone - Simplex Fronts.pdf`. Take the stack of 
+paper and put it back into your printer's paper feed, then print `./print/Beak 
+Feather Bone - Simplex - Backs (Reversed).pdf`.
+
+Once it's printed, the entire stack of sheets should be ordered correctly, first 
+to last.
