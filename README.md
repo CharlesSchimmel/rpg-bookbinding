@@ -16,9 +16,9 @@ can share the formatting scripts.
 
 # How to Use
 - You will need source PDFs from itch.io or DriveThruRpg or wherever.
-- Recommended: build the container image in `./docker` run scripts with Ensure 
-- that `texlive-extra-utils` `texlive-latex-recommended` `pdftk` are 
-installed.
-- View the README in the RPG's subdirectory. Run the script in that subdirectory 
+- Either:
+    - Build the container image in <./docker>
+    - Ensure that Ensure that `texlive-extra-utils` `texlive-latex-recommended` `pdftk` are installed.
+- View the README in your desired RPG's subdirectory. Run the script in that subdirectory 
     with `./script.sh` or `podman run --rm -it -v './':/work -w /work pdftools 
     ./script.sh` if using the container image.
