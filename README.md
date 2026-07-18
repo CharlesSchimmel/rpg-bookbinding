@@ -11,8 +11,14 @@ different sections trying to explain the rules.
 I also love bookbinding, printing, and typesetting, so formatting, printing, and 
 binding these books is a fun, tangential hobby.
 
+I obviously can't redistribute PDFs that I've reformatted for printing, but I 
+can share the formatting scripts.
+
 # How to Use
-- You will need a source PDF from itch.io or DriveThruRpg or wherever.
-- Ensure that `texlive-extra-utils` `texlive-latex-recommended` `pdftk` are 
+- You will need source PDFs from itch.io or DriveThruRpg or wherever.
+- Recommended: build the container image in `./docker` run scripts with Ensure 
+- that `texlive-extra-utils` `texlive-latex-recommended` `pdftk` are 
 installed.
-- View the README in the RPG's subdirectory.
+- View the README in the RPG's subdirectory. Run the script in that subdirectory 
+    with `./script.sh` or `podman run --rm -it -v './':/work -w /work pdftools 
+    ./script.sh` if using the container image.

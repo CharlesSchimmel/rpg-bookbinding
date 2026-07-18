@@ -21,11 +21,13 @@ cp './BFB Map - High Quality Print.pdf' print/
 
 signaturesPath="$buildDir/signatures_all_tumble.pdf"
 
+echo Creating signatures
 # The argument to --signature is the total number of pages (fronts and backs)
 # per signature. It must be a multiple of 4, and the number of sheets used is
 # signature/4. In this case, 8.
 pdfjam \
     --signature 32 \
+    --shortedge true \
     --landscape \
     --paper letter \
     --outfile "$signaturesPath" \
@@ -40,18 +42,20 @@ pdfjam \
 #     --outfile "build/booklet.pdf" \
 #     './Beak Feather and Bone - Digital and Print.pdf'
 
+echo "Fixing odd pages"
 # By default, the `--signature` and `--booklet` options generate a document
 # formatted for "tumble" printing, where one side is printed and then flipped
 # vertically before printing the other side. This is more common in large-scale
 # printing; if you're printing on a home or office printer, you don't want
 # that, so we have to flip it back upright.
 #
-# More recent versions of pdfjam give the `--no-otheredge` option which
-# disables this. Otherwise, we need to divide, flip, and shuffle the pages to
-# undo it. The `__south` option to `pdftk cat` flips the page 180'.
-pdftk "$signaturesPath" cat oddsouth output build/signatures_odd.pdf
+# More recent versions of pdfjam give the `--no-otheredge` or `--shortedge` 
+# option which disables this. Otherwise, we need to divide, flip, and shuffle 
+# the pages to undo it. The `__south` option to `pdftk cat` flips the page 180'.
+pdftk "$signaturesPath" cat odd output build/signatures_odd.pdf
 pdftk "$signaturesPath" cat even output build/signatures_even.pdf
 
+echo "Reversing even pages (for simplex printing)"
 # If your printer doesn't support "duplex" printing (printing both sides on the
 # same pass), you'll need to print off the odd sides, take the stack of paper,
 # and print the even sides on the backs.
@@ -60,8 +64,11 @@ pdftk "$signaturesPath" cat even output build/signatures_even.pdf
 # put it back into the paper supply; then print `signatures_even_reversed`.
 pdftk "build/signatures_even.pdf" cat end-1 output build/signatures_even_reversed.pdf
 
+echo "Recombining into true duplex document"
 # This generates a document suitable for true duplex printing.
 pdftk A=build/signatures_odd.pdf B=build/signatures_even.pdf shuffle A B output build/signatures_all_duplex.pdf
 
 cp build/signatures_all_duplex.pdf print/'Beak Feather Bone - Duplex.pdf'
-echo Done: ./print/Beak Feather Bone - Duplex.pdf
+cp build/signatures_odd.pdf print/'Beak Feather Bone - Simplex - Fronts.pdf'
+cp build/signatures_even_reversed.pdf print/'Beak Feather Bone - Simplex - Backs (Reversed).pdf'
+echo Done.
