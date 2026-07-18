@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 
-sourcePdf="$1"
+# sourcePdf="$1"
 buildDir="./build"
 
 mkdir -p print $buildDir
@@ -35,11 +35,11 @@ echo "Creating signatures"
 # same as a signature of 28 pages
     # --booklet true \
 pdfjam -q \
-    --signature 28 \
+    --booklet true \
     --landscape \
     --paper letter \
     --outfile "$signaturesPath" \
-    "$sourcePdf"
+    './Emissary v3 Digital Single-Page Layout.pdf'
 
 echo "Fixing odd pages"
 # By default, the `--signature` and `--booklet` options generate a document
