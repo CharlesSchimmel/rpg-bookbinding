@@ -22,3 +22,6 @@ can share the formatting scripts.
 - View the README in your desired RPG's subdirectory. Run the script in that subdirectory 
     with `./script.sh` or `podman run --rm -it -v './':/work -w /work pdftools 
     ./script.sh` if using the container image.
+
+# Resources
+- I found this blog helpful in understanding pdfjam: https://equa.space/notes/pdfjam/

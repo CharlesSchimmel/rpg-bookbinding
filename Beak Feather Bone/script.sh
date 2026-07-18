@@ -10,37 +10,30 @@ cp './BFB Map - High Quality Print.pdf' print/
 # --trim: left bottom right top
 # ex: --trim '15mm 10mm 15mm 10mm'
 
-# Generate spreads; useful for checking the final result.
-# pdfjam \
-#     --nup 2x1 \
-#     --landscape \
-#     --paper letter \
-#     --clip true \
-#     --outfile spreads.pdf \
-#     './Beak Feather and Bone - Digital and Print.pdf'
-
 signaturesPath="$buildDir/signatures_all_tumble.pdf"
+pdftk './Beak Feather and Bone - Digital and Print.pdf' cat 1-5 16-end output 'build/rulebook without roles.pdf'
 
 echo Creating signatures
 # The argument to --signature is the total number of pages (fronts and backs)
 # per signature. It must be a multiple of 4, and the number of sheets used is
 # signature/4. In this case, 8.
-pdfjam \
+# pdfjam -q \
+#     --signature 32 \
+#     --shortedge true \
+#     --landscape \
+#     --paper letter \
+#     --outfile "$signaturesPath" \
+#     './Beak Feather and Bone - Digital and Print.pdf'
+
+# In this case, the PDF has 32 pages, so `--booklet true` is functionally the
+# same as a signature of 32 pages
+pdfjam -q \
     --signature 32 \
     --shortedge true \
     --landscape \
     --paper letter \
     --outfile "$signaturesPath" \
     './Beak Feather and Bone - Digital and Print.pdf'
-
-# In this case, the PDF has 32 pages, so `--booklet true` is functionally the
-# same as a signature of 32 pages
-# pdfjam \
-#     --booklet true \
-#     --landscape \
-#     --paper letter \
-#     --outfile "build/booklet.pdf" \
-#     './Beak Feather and Bone - Digital and Print.pdf'
 
 echo "Fixing odd pages"
 # By default, the `--signature` and `--booklet` options generate a document
@@ -71,4 +64,20 @@ pdftk A=build/signatures_odd.pdf B=build/signatures_even.pdf shuffle A B output 
 cp build/signatures_all_duplex.pdf print/'Beak Feather Bone - Duplex.pdf'
 cp build/signatures_odd.pdf print/'Beak Feather Bone - Simplex - Fronts.pdf'
 cp build/signatures_even_reversed.pdf print/'Beak Feather Bone - Simplex - Backs (Reversed).pdf'
+
+echo Generating Role sheet
+pdftk './Beak Feather and Bone - Digital and Print.pdf' cat 6-15 output 'build/roles.pdf'
+pdfjam -q \
+    --nup 4x2 \
+    --landscape \
+    --paper letter \
+    --outfile 'print/Beak Feather Bone Roles - 4x2.pdf' \
+    'build/roles.pdf'
+
+pdfjam -q \
+    --nup 2x2 \
+    --paper letter \
+    --outfile 'print/Beak Feather Bone Roles - 2x2.pdf' \
+    'build/roles.pdf'
+
 echo Done.
